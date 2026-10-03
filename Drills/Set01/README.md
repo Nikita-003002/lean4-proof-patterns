@@ -19,7 +19,6 @@ This set specifically focuses on extra addons required to feed tactics to solve 
 
 </br>
 
----
 ## Drill 1.2
 ### `(x : ℝ) : 6 * x - 9 ≤ x ^ 2`
 
@@ -34,7 +33,6 @@ This set specifically focuses on extra addons required to feed tactics to solve 
 
 </br>
 
----
 ## Drill 1.3
 ### `2 * a * b ≤ a ^ 2 + b ^ 2`
 
@@ -43,7 +41,6 @@ This set specifically focuses on extra addons required to feed tactics to solve 
 
 </br>
 
----
 ## Drill 1.4
 ### `(a b c : ℝ) : a * b + b * c + c * a ≤ a ^ 2 + b ^ 2 + c ^ 2`
 
@@ -64,3 +61,21 @@ This set specifically focuses on extra addons required to feed tactics to solve 
 - Adding `h1 + h2 + h3` gives `-2 * A - 2 * B - 2 * C + 2 * X + 2 * Y + 2 * Z ≤ 0`.
 - Multiplying the negated Goal by `2` gives `2 * A + 2 * B + 2 * C - 2 * X - 2 * Y - 2 * Z < 0`.
 - Adding `2 * Goal` and `h1 + h2 + h3` yields `0 < 0`.
+
+</br>
+
+## Drill 1.5
+### `(x y : ℝ) (h₀: y = 19 + |x|) : 19 ≤ y`
+
+- `abs_nonneg x` unfolds as `0 ≤ |x|`.
+- Substituting the non-linear term (`A = |x|`) gives:
+  - `h₀: y = 19 + A`
+  - `h1: 0 ≤ A`
+  - `Goal: 19 ≤ y`
+- Forming `0 < 0` for `linarith`:
+- Negating the goal to `19 > y`.
+- Rearranging Goal to standard format `(expression < 0)`: `y - 19 < 0`.
+- Rearranging `h₀` and `h1` to standard format `(expression ≤ 0)`:
+  - `h₀: -y + A + 19 ≤ 0` (derived from `y = 19 + A`)
+  - `h1: -A ≤ 0`
+- Adding `Goal + h₀ + h1` cancels `y`, `A`, and `19`, yielding `0 < 0`.
