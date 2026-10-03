@@ -4,6 +4,7 @@ This set specifically focuses on extra addons required to feed tactics to solve 
 > [!NOTE]
 > `linarith` only understands linear terms. Whenever a problem involves squares (x ^ 2), products (x * y), or absolute values (| x |), manually state a non-negative fact using `have` and feed it inside the brackets `linarith [...]`.
 
+</br>
 ## Drill 1.1
 ### `(x : ℝ) : x ^ 2 - 5 ≥ -5`
 
@@ -15,6 +16,7 @@ This set specifically focuses on extra addons required to feed tactics to solve 
 - `A - 5 < -5` rearranges to `A < 0`.
 - linarith searches for non-negative multiplier `(-A ≤ 0) and (A < 0)` and add it yielding `0 < 0` which is obviously false and closing the goal.
 
+</br>
 ---
 ## Drill 1.2
 ### `(x : ℝ) : 6 * x - 9 ≤ x ^ 2`
@@ -27,3 +29,11 @@ This set specifically focuses on extra addons required to feed tactics to solve 
 - Rearranging Goal to rhs standard format `(expression < 0)`  `A - 6 * x + 9 < 0`.
 - Rearranging h1 to rhs standard format `-A + 6 * x - 9 ≤ 0`.
 - Addind Goal and h1 yields `0 < 0`
+
+</br>
+---
+## Drill 1.3
+### `2 * a * b ≤ a ^ 2 + b ^ 2`
+
+- Same as above drill but with three different variable instead of just one.
+- `a^2` say `A`, `b^2` say `B` and `2 * a * b` say `C`.
