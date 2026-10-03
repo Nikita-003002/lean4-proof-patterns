@@ -1,0 +1,16 @@
+name = "lean4-proof-patterns"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["Drills"]
+
+[leanOptions]
+pp.unicode.fun = true
+autoImplicit = false
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.34.1"
+
+[[lean_lib]]
+name = "Drills"
