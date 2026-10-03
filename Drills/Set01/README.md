@@ -5,6 +5,7 @@ This set specifically focuses on extra addons required to feed tactics to solve 
 > `linarith` only understands linear terms. Whenever a problem involves squares (x ^ 2), products (x * y), or absolute values (| x |), manually state a non-negative fact using `have` and feed it inside the brackets `linarith [...]`.
 
 </br>
+
 ## Drill 1.1
 ### `(x : ℝ) : x ^ 2 - 5 ≥ -5`
 
@@ -17,6 +18,7 @@ This set specifically focuses on extra addons required to feed tactics to solve 
 - linarith searches for non-negative multiplier `(-A ≤ 0) and (A < 0)` and add it yielding `0 < 0` which is obviously false and closing the goal.
 
 </br>
+
 ---
 ## Drill 1.2
 ### `(x : ℝ) : 6 * x - 9 ≤ x ^ 2`
@@ -31,9 +33,34 @@ This set specifically focuses on extra addons required to feed tactics to solve 
 - Addind Goal and h1 yields `0 < 0`
 
 </br>
+
 ---
 ## Drill 1.3
 ### `2 * a * b ≤ a ^ 2 + b ^ 2`
 
 - Same as above drill but with three different variable instead of just one.
 - `a^2` say `A`, `b^2` say `B` and `2 * a * b` say `C`.
+
+</br>
+
+---
+## Drill 1.4
+### `(a b c : ℝ) : a * b + b * c + c * a ≤ a ^ 2 + b ^ 2 + c ^ 2`
+
+- `sq_nonneg (a - b)`, `sq_nonneg (b - c)`, and `sq_nonneg (c - a)` unfold as `0 ≤ (a - b) ^ 2`, `0 ≤ (b - c) ^ 2`, and `0 ≤ (c - a) ^ 2`.
+- `ring` normalization expands them into `0 ≤ a ^ 2 - 2 * a * b + b ^ 2`, `0 ≤ b ^ 2 - 2 * b * c + c ^ 2`, and `0 ≤ c ^ 2 - 2 * c * a + a ^ 2`.
+- Substituting non-linear terms (`A = a^2`, `B = b^2`, `C = c^2`, `X = a*b`, `Y = b*c`, `Z = c*a`) gives:
+  - `h1: 0 ≤ A - 2 * X + B`
+  - `h2: 0 ≤ B - 2 * Y + C`
+  - `h3: 0 ≤ C - 2 * Z + A`
+  - `Goal: X + Y + Z ≤ A + B + C`
+- Forming `0 < 0` for `linarith`:
+- Negating the goal to `X + Y + Z > A + B + C`.
+- Rearranging Goal to standard format `(expression < 0)`: `A + B + C - X - Y - Z < 0`.
+- Rearranging `h1`, `h2`, and `h3` to standard format `(expression ≤ 0)`:
+  - `h1: -A + 2 * X - B ≤ 0`
+  - `h2: -B + 2 * Y - C ≤ 0`
+  - `h3: -C + 2 * Z - A ≤ 0`
+- Adding `h1 + h2 + h3` gives `-2 * A - 2 * B - 2 * C + 2 * X + 2 * Y + 2 * Z ≤ 0`.
+- Multiplying the negated Goal by `2` gives `2 * A + 2 * B + 2 * C - 2 * X - 2 * Y - 2 * Z < 0`.
+- Adding `2 * Goal` and `h1 + h2 + h3` yields `0 < 0`.
