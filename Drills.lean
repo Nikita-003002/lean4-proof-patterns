@@ -3,3 +3,5 @@ import Drills.Set01.drill_1_2
 import Drills.Set01.drill_1_3
 import Drills.Set01.drill_1_4
 import Drills.Set01.drill_1_5
+import Drills.Set01.drill_1_6
+import Drills.Set01.drill_1_7

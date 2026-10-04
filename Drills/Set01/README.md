@@ -79,3 +79,53 @@ This set specifically focuses on extra addons required to feed tactics to solve 
   - `h₀: -y + A + 19 ≤ 0` (derived from `y = 19 + A`)
   - `h1: -A ≤ 0`
 - Adding `Goal + h₀ + h1` cancels `y`, `A`, and `19`, yielding `0 < 0`.
+
+</br>
+
+## Drill 1.6
+### `(a b c : ℝ) (h₀: c = 10 + |a - 1| + |b - 2|) : 10 ≤ c`
+
+- `abs_nonneg (a - 1)` unfolds as `0 ≤ |a - 1|`, and `abs_nonneg (b - 2)` unfolds as `0 ≤ |b - 2|`.
+- Substituting the non-linear terms (`A = |a - 1|` and `B = |b - 2|`) gives:
+  - `h₀: c = 10 + A + B`
+  - `h1: 0 ≤ A`
+  - `h2: 0 ≤ B`
+  - `Goal: 10 ≤ c`
+- Forming `0 < 0` for `linarith`:
+- Negating the goal to `10 > c`.
+- Rearranging Goal to standard format `(expression < 0)`: `c - 10 < 0`.
+- Rearranging `h₀`, `h1`, and `h2` to standard format `(expression ≤ 0)`:
+  - `h₀: -c + A + B + 10 ≤ 0` (derived from `c = 10 + A + B`)
+  - `h1: -A ≤ 0`
+  - `h2: -B ≤ 0`
+- Adding `Goal + h₀ + h1 + h2` cancels `c`, `A`, `B`, and `10`, yielding `0 < 0`.
+
+</br>
+
+## Drill 1.7
+### `(x S : ℝ) (h₀: S = 19 + |x|) (h₁: S < 25) : 19 ≤ S ∧ |x| < 6`
+
+- `constructor` splits the conjunction (`∧`) goal into two separate subgoals: `Goal 1: 19 ≤ S` and `Goal 2: |x| < 6`.
+- `abs_nonneg x` unfolds as `0 ≤ |x|`.
+- Substituting the non-linear term (`A = |x|`) gives:
+  - `h₀: S = 19 + A`
+  - `h₁: S < 25`
+  - `h2: 0 ≤ A` (used in Subgoal 1)
+
+- **Subgoal 1 (`19 ≤ S`):**
+  - Forming `0 < 0` for `linarith`:
+  - Negating the goal to `19 > S`.
+  - Rearranging Goal 1 to standard format `(expression < 0)`: `S - 19 < 0`.
+  - Rearranging `h₀` and `h2` to standard format `(expression ≤ 0)`:
+    - `h₀: -S + A + 19 ≤ 0` (derived from `S = 19 + A`)
+    - `h2: -A ≤ 0`
+  - Adding `Goal 1 + h₀ + h2` cancels `S`, `A`, and `19`, yielding `0 < 0`.
+
+- **Subgoal 2 (`|x| < 6`, i.e., `A < 6`):**
+  - Forming `0 < 0` for `linarith`:
+  - Negating the goal to `A ≥ 6`.
+  - Rearranging Goal 2 to standard format `(expression ≤ 0)`: `-A + 6 ≤ 0`.
+  - Rearranging `h₀` and `h₁` to standard format:
+    - `h₀: -S + A + 19 ≤ 0` (derived from `S = 19 + A`)
+    - `h₁: S - 25 < 0`
+  - Adding `Goal 2 + h₀ + h₁` cancels `A`, `S`, and the constants (`6 + 19 - 25 = 0`), yielding `0 < 0`.
