@@ -129,3 +129,22 @@ This set specifically focuses on extra addons required to feed tactics to solve 
     - `h₀: -S + A + 19 ≤ 0` (derived from `S = 19 + A`)
     - `h₁: S - 25 < 0`
   - Adding `Goal 2 + h₀ + h₁` cancels `A`, `S`, and the constants (`6 + 19 - 25 = 0`), yielding `0 < 0`.
+
+  </br>
+
+## Drill 1.8
+### `(x y : ℝ) (h₀: |x - 3| ≤ 2) (h₁: y = x + 5) : 6 ≤ y`
+
+- `abs_le.mp h₀` unfolds `|x - 3| ≤ 2` as `-2 ≤ x - 3 ∧ x - 3 ≤ 2`.
+- Splitting the conjunction (`∧`) gives the linear system:
+  - `h₁: y = x + 5`
+  - `h2: -2 ≤ x - 3`
+  - `h3: x - 3 ≤ 2` (unused)
+  - `Goal: 6 ≤ y`
+- Forming `0 < 0` for `linarith`:
+- Negating the goal to `6 > y`.
+- Rearranging Goal to standard format `(expression < 0)`: `y - 6 < 0`.
+- Rearranging `h₁` and `h2` to standard format `(expression ≤ 0)`:
+  - `h₁: x - y + 5 ≤ 0` (derived from `y = x + 5`)
+  - `h2: -x + 1 ≤ 0` (derived from `-2 ≤ x - 3`)
+- Adding `Goal + h₁ + h2` cancels `y`, `x`, and constants (`-6 + 5 + 1`), yielding `0 < 0`.
