@@ -148,3 +148,22 @@ This set specifically focuses on extra addons required to feed tactics to solve 
   - `h₁: x - y + 5 ≤ 0` (derived from `y = x + 5`)
   - `h2: -x + 1 ≤ 0` (derived from `-2 ≤ x - 3`)
 - Adding `Goal + h₁ + h2` cancels `y`, `x`, and constants (`-6 + 5 + 1`), yielding `0 < 0`.
+
+</br>
+
+## Drill 1.9
+### `(x y : ℝ) (h₀: x ≥ 1 ∧ y ≥ 1) : x + y ≤ x * y + 1`
+
+- **`linarith` / `nlinarith` automatically splits conjunctions (`∧`) in hypotheses:** `h₀` is unpacked into `h1: 1 ≤ x` and `h2: 1 ≤ y` (i.e., `0 ≤ x - 1` and `0 ≤ y - 1`) without needing `rcases` or `.1` / `.2`.
+- **`nlinarith` automatically multiplies pairwise non-negative terms:** `0 ≤ (x - 1) * (y - 1)`, which expands to `0 ≤ x * y - x - y + 1`.
+- Substituting the non-linear term (`A = x * y`) gives:
+  - `h1: 1 ≤ x`
+  - `h2: 1 ≤ y`
+  - `h3: 0 ≤ A - x - y + 1`
+  - `Goal: x + y ≤ A + 1`
+- Forming `0 < 0` for `linarith`:
+- Negating the goal to `x + y > A + 1`.
+- Rearranging Goal to standard format `(expression < 0)`: `A - x - y + 1 < 0`.
+- Rearranging `h3` to standard format `(expression ≤ 0)`:
+  - `h3: -A + x + y - 1 ≤ 0` (derived from `0 ≤ A - x - y + 1`)
+- Adding `Goal + h3` cancels `A`, `x`, `y`, and `1`, yielding `0 < 0`.
