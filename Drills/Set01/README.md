@@ -167,3 +167,24 @@ This set specifically focuses on extra addons required to feed tactics to solve 
 - Rearranging `h3` to standard format `(expression ≤ 0)`:
   - `h3: -A + x + y - 1 ≤ 0` (derived from `0 ≤ A - x - y + 1`)
 - Adding `Goal + h3` cancels `A`, `x`, `y`, and `1`, yielding `0 < 0`.
+
+</br>
+
+## Drill 1.10
+### `(x y : ℝ) (h₀: y > 0) : 0 < (x ^ 2 + 1) / y + |y|`
+
+- `positivity` builds an Abstract Syntax Tree (AST), breaking the goal into leaves, evaluating their signs, and rolling them back up to the root.
+- **Top-Level Split (Root Node):** Evaluates the addition `A + B`, where `A = (x ^ 2 + 1) / y` and `B = |y|`.
+- **Evaluating the right branch (`B = |y|`):**
+  - The absolute value extension applies `abs_nonneg y`, yielding `0 ≤ |y|`.
+- **Evaluating the left branch (`A = (x ^ 2 + 1) / y`):**
+  - The denominator `y` is flagged as strictly positive from the local context `h₀: y > 0`.
+  - The numerator is split into an addition sub-tree `C + D`, where `C = x ^ 2` and `D = 1`:
+    - The squares extension applies `sq_nonneg x`, yielding `0 ≤ x ^ 2`.
+    - The numeric literal `1` trivially yields `0 < 1`.
+    - Rolling up the numerator: Adding `0 ≤ x ^ 2` and `0 < 1` yields `0 < x ^ 2 + 1`.
+  - Rolling up the division: Dividing the strictly positive numerator by the strictly positive denominator yields `0 < (x ^ 2 + 1) / y`.
+- **Combining the evaluated branches:**
+  - Left branch: `0 < (x ^ 2 + 1) / y`
+  - Right branch: `0 ≤ |y|`
+- **Final Roll-Up:** Adding `Strictly Positive + Non-negative` yields the final closed goal `0 < (x ^ 2 + 1) / y + |y|`.
