@@ -24,7 +24,7 @@ Learning from this Set:
 ## Drill 2.2
 ### `(a b : ℤ) (h₀: ∃ k : ℤ, a = 4 * k + 1) (h₁: ∃ m : ℤ, b = 4 * m + 3) : ∃ n : ℤ, a + b = 4 * n`
 
-- `obtain ⟨k, hk⟩ := h₀` and `obtain ⟨m, hm⟩ := h₁` unpack the hypotheses, introducing specific variables `k` and `m` alongside their exact equations `a = 4 * k + 1` and `b = 4 * m + 3`.
+- The `obtain` tactic unpacks the existential hypothesis `h₀`. It introduces a specific integer variable `k` into the local context and extracts the exact equation `a = 4 * k + 1`, assigning it the name `hk` and same for `h₁`.
 - For `∃`, the `use` tactic provides a witness.
 - Here `k + m + 1` is the witness. The goal changes to `a + b = 4 * (k + m + 1)`.
 - `rw [hk, hm]` substitutes the variables using the extracted equalities, transforming the goal into `(4 * k + 1) + (4 * m + 3) = 4 * (k + m + 1)`.
@@ -32,3 +32,18 @@ Learning from this Set:
 
 > [!Note]
 > The `ring` tactic is provided by Mathlib specifically for commutative rings (like integers). It automatically handles associativity, commutativity, and distributivity so we don't have to manually factor or rearrange the terms.
+
+
+<br/>
+
+# Drill 2.3
+### `(x : ℤ) (h₀: ∃ k, x = 3 * k + 2) : ∃ m, x ^ 2 = 3 * m + 1`
+
+- `obtain ⟨k, hk⟩ := h₀`
+    - The `obtain` tactic unpacks the existential hypothesis `h₀`. It introduces a specific integer variable `k` into the local context and extracts the exact equation `x = 3k + 2`, assigning it the name `hk`.
+- `use 3 * k ^ 2 + 4 * k + 1`
+    - The goal is to prove `∃ m, x ^ 2 = 3 * m + 1`. The `use` tactic provides a direct witness for this existential quantifier. By telling Lean to use `3k^2 + 4k + 1` for `m`, the goal updates to proving the specific equality: `x^2 = 3 * (3k^2 + 4k + 1) + 1`.
+- `rw[hk]`
+    - `rw` (rewrite) tactic substitutes variables. Goal transforms into: `(3k + 2)^2 = 3(3k^2 + 4k + 1) + 1`.
+- `ring`
+    - Recognizes structural equivalence (`=`) and closes the proof.
