@@ -18,3 +18,17 @@ Learning from this Set:
 
 > [!Note]
 > We can directly use `omega` to resolve this as well (Caution: It won't work for anything other than simple linear equation). Covered Later.
+
+<br/>
+
+## Drill 2.2
+### `(a b : ℤ) (h₀: ∃ k : ℤ, a = 4 * k + 1) (h₁: ∃ m : ℤ, b = 4 * m + 3) : ∃ n : ℤ, a + b = 4 * n`
+
+- `obtain ⟨k, hk⟩ := h₀` and `obtain ⟨m, hm⟩ := h₁` unpack the hypotheses, introducing specific variables `k` and `m` alongside their exact equations `a = 4 * k + 1` and `b = 4 * m + 3`.
+- For `∃`, the `use` tactic provides a witness.
+- Here `k + m + 1` is the witness. The goal changes to `a + b = 4 * (k + m + 1)`.
+- `rw [hk, hm]` substitutes the variables using the extracted equalities, transforming the goal into `(4 * k + 1) + (4 * m + 3) = 4 * (k + m + 1)`.
+- `ring` evaluates both sides of the polynomial equation and closes the goal automatically.
+
+> [!Note]
+> The `ring` tactic is provided by Mathlib specifically for commutative rings (like integers). It automatically handles associativity, commutativity, and distributivity so we don't have to manually factor or rearrange the terms.
