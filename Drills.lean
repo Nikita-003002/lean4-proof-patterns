@@ -12,3 +12,9 @@ import Drills.Set02.drill_2_1
 import Drills.Set02.drill_2_2
 import Drills.Set02.drill_2_3
 import Drills.Set02.drill_2_4
+import Drills.Set02.drill_2_5
+import Drills.Set02.drill_2_6
+import Drills.Set02.drill_2_7
+import Drills.Set02.drill_2_8
+import Drills.Set02.drill_2_9
+import Drills.Set02.drill_2_10
