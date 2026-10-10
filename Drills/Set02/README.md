@@ -2,7 +2,7 @@
 This is where we transition from basic algebraic manipulation into structural mathematical reasoning. In number theory, almost everything — `divisibility`, `even numbers`, `odd numbers` — is secretly an existential statement ("there exists an integer such that...").
 
 Learning from this Set:
-- The 4-Step Existential Rhythm: How to mechanically dismantle existential hypotheses and construct proofs using the `obtain` -> `rw` -> `use` -> `ring` pipeline.
+- The 4-Step Existential Rhythm: How to mechanically dismantle existential hypotheses and construct proofs using the `obtain` -> `use` -> `rw` -> `ring` pipeline.
 - The Witness Principle: How to identify and provide the specific value (use) required to prove that something exists, distinguishing between what Lean can figure out and what requires mathematical intuition.
 
 > [!Note]
@@ -47,3 +47,20 @@ Learning from this Set:
     - `rw` (rewrite) tactic substitutes variables. Goal transforms into: `(3k + 2)^2 = 3(3k^2 + 4k + 1) + 1`.
 - `ring`
     - Recognizes structural equivalence (`=`) and closes the proof.
+
+<br/>
+
+# Drill 2.4
+## `(n : ℤ) (h₀: 5 ∣ n) : 5 ∣ (n ^ 2 + 10 * n)`
+
+- `obtain ⟨k, hk⟩ := h₀`
+    - This unpacks the definition of divisibility from hypothesis h₀. It tells Lean: "Since `5 ∣ n`, there must exist some integer `k` such that `n = 5k`." It introduces this new integer `k` into the local context and names the equation `n = 5k` as a new hypothesis `hk`.
+- `use 5 * k ^ 2 + 10 * k`
+    - The goal is to prove  `5 ∣ (n^2 + 10n)` , which Lean understands mathematically as finding a "witness" value `c` such that  `n^2 + 10n = 5c` . The use tactic provides that exact witness. Lean now changes the goal to proving the equality:  `n^2 + 10n = 5(5k^2 + 10k)` .
+- `rw[hk]`
+    - The `rw` (rewrite) tactic looks at the equation in hypothesis `hk` `( n = 5k )` and replaces every instance of  `n`  in the goal with  `5k` . The goal updates to:  `(5k)^2 + 10(5k) = 5(5k^2 + 10k)` .
+- `ring`
+    - Expands, groups, and simplifies both sides of the equation algebraically. Since both sides simplify to  `25k^2 + 50k` , ring recognizes they are mathematically identical and closes the proof.
+
+> [!Note]
+> `m∣n` unfolds as `n = 5m` 
