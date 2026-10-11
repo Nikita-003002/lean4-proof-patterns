@@ -19,3 +19,7 @@ import Drills.Set02.drill_2_8
 import Drills.Set02.drill_2_9
 import Drills.Set02.drill_2_10
 import Drills.Set03.drill_3_1
+import Drills.Set03.drill_3_2
+import Drills.Set03.drill_3_3
+import Drills.Set03.drill_3_4
+import Drills.Set03.drill_3_5
