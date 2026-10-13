@@ -92,3 +92,57 @@ Whenever `linarith` or `ring` gets stuck on an expression containing `|x|`, `max
     - This rewrites the target goal from `3 ≤ |x - 3| + x` to `3 ≤ -(x - 3) + x`.
     - `linarith` simplifies the algebraic expression on the right side. Since `-(x - 3) + x` expands to `-x + 3 + x`, the `x` variables cancel out, leaving just `3`.
     - The goal effectively becomes `3 ≤ 3`, which is trivially true. `linarith` derives the contradiction `3 < 3` into `0 < 0` when negating it and closes the second goal, completing the proof.
+
+<br/>
+
+## Drill 3.6
+### `(x : ℝ) : 2 ≤ |2 * x - 1| + |2 * x + 1|`
+
+- `le_total 0 (2 * x - 1)` asserts the disjunction `0 ≤ A ∨ A ≤ 0` where for simplicity we do `A = (2 * x - 1)`.
+- The first `rcases` divides the proof based on the sign of `2x - 1`.
+- The `<;>` (chaining combinator) executes the second `rcases` across all active subgoals. This generates a 4-case matrix covering every sign combination for `2x - 1` and `2x + 1` (call this `B`) i.e. (`A≥0`, `B≥0`), (`A≥0`, `B≤0`), (`A≤0`, `B≥0`), and (`A≤0`, `B≤0`).
+- `rw` unpacks the absolute values. It matches each branch's specific sign hypotheses (`h`, `h₁`) against `abs_of_nonneg` or `abs_of_nonpos` to replace `|A|` with `A` or `-A`.
+- With the non-linear absolute values removed, `linarith` takes the resulting standard linear inequalities and executes its `0 < 0` refutation search to close all four branches.
+
+<br/>
+
+## Drill 3.7
+
+### `(a b : ℝ) : max a b + min a b = a + b`
+
+- `le_total a b` asserts the disjunction `a ≤ b ∨ b ≤ a`.
+- `rcases` splits the proof into two logical branches based on this disjunction: Case 1 where `a ≤ b` (named `h`), and Case 2 where `b ≤ a` (also named `h`).
+- Case 1 (`a ≤ b`): `rw` uses `max_eq_right` to replace `max a b` with `b`, and `min_eq_left` to replace `min a b` with `a`. The goal becomes `b + a = a + b`, which `ring` easily closes by commutative addition.
+- Case 2 (`b ≤ a`): `rw` uses `max_eq_left` to replace `max a b` with `a`, and `min_eq_right` to replace `min a b` with `b`. The goal becomes exactly `a + b = a + b`. The `rw` tactic automatically applies reflexivity at the end to close identical sides.
+
+>[!Note]
+> For naming convention, the tactic used is `max_eq_right` because maximum value exists in right side of `(a b)` i.e `b`. Same applies for all.
+
+<br/>
+
+## Drill 3.8
+### `(a b : ℝ) : max a b - min a b = |a - b|`
+
+- `le_total a b` asserts the disjunction `a ≤ b ∨ b ≤ a`, and `rcases` splits the proof into two logical branches (both named `h`).
+- Case 1 (`a ≤ b`): `rw` uses `max_eq_right` and `min_eq_left` to simplify the left side to `b - a`. To strip the absolute value on the right side, `abs_of_nonpos` requires proof that `a - b ≤ 0`. The inline `(show a - b ≤ 0 by linarith)` proves this prerequisite. The goal becomes `b - a = -(a - b)`, which `ring` evaluates and closes.
+- Case 2 (`b ≤ a`): `rw` uses `max_eq_left` and `min_eq_right` to simplify the left side to `a - b`. For the absolute value, `abs_of_nonneg` requires proof that `0 ≤ a - b`, which is provided inline via `(show 0 ≤ a - b by linarith)`. The goal evaluates to exactly `a - b = a - b`, which the `rw` tactic automatically closes via reflexivity.
+
+<br/>
+
+## Drill 3.9
+### `(x : ℝ) (h₀: x ^ 2 - 5 * x + 6 = 0) : x = 2 ∨ x = 3`
+
+- `have h_fac: (x - 2) * (x - 3) = 0` manually introduces the factored form of the quadratic polynomial as a new hypothesis. The `linarith` tactic verifies it by matching its expansion to `h₀`.
+- `mul_eq_zero.mp` applies the Zero Product Property (if `a * b = 0`, then `a = 0 ∨ b = 0`). `rcases` splits the proof into two logical branches based on this disjunction: `x - 2 = 0` and `x - 3 = 0` (both named `h`).
+- Case 1 (`x - 2 = 0`): The goal is `x = 2 ∨ x = 3`. The `left` tactic discards the right side and tells Lean to solely prove the left side (`x = 2`). `linarith` immediately closes it using `x - 2 = 0`.
+- Case 2 (`x - 3 = 0`): The `right` tactic discards the left side and targets the right side of the goal (`x = 3`). `linarith` immediately closes it using `x - 3 = 0`.
+
+<br/>
+
+## Drill 3.10
+### `(n : ℤ) : 2 ∣ (n + n ^ 2)`
+
+- `Int.even_or_odd n` asserts the structural disjunction that every integer is either even or odd.
+- `rcases` splits the proof based on this disjunction while simultaneously unpacking the hidden existential definitions for both branches. It binds a witness `k` and an equation `hk` for each case (`n = 2 * k` for the even branch, `n = 2 * k + 1` for the odd branch).
+- Case 1 (Even): The divisibility goal `2 ∣ (n + n ^ 2)` unfolds into an existential search. `use 2 * k ^ 2 + k` provides the required witness. `rw [hk]` substitutes `n` with `k + k`, and `ring` automatically expands and verifies the algebraic equality.
+- Case 2 (Odd): `use (2 * k + 1) * (k + 1)` provides the exact witness needed for the odd branch. `rw [hk]` substitutes `n` with `2 * k + 1`, and `ring` crushes the resulting polynomial expansion to close the goal.
