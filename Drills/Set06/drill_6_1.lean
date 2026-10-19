@@ -2,6 +2,6 @@
 
 import Mathlib
 
-theorem Drill_6_1 (n : ℕ): ∑ k ∈ Finset.range n, (5 : ℝ) = 5 * n := by
+theorem Drill_6_1 (n : ℕ): ∑ _ ∈ Finset.range n, (5 : ℝ) = 5 * n := by
   simp
   ring
