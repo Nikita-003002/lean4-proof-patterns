@@ -66,3 +66,16 @@ import Drills.Set07.drill_7_7
 import Drills.Set07.drill_7_8
 import Drills.Set07.drill_7_9
 import Drills.Set07.drill_7_10
+import Drills.Set08.drill_8_1
+import Drills.Set08.drill_8_2
+import Drills.Set08.drill_8_3
+import Drills.Set08.drill_8_4
+import Drills.Set08.drill_8_5
+import Drills.Set08.drill_8_6
+import Drills.Set08.drill_8_7
+import Drills.Set08.drill_8_8
+import Drills.Set08.drill_8_9
+import Drills.Set08.drill_8_10
+import Drills.Set08.drill_8_11
+import Drills.Set08.drill_8_12
+import Drills.Set08.drill_8_13
